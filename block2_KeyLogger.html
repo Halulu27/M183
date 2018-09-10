@@ -14,12 +14,14 @@
 
       word = word + character_value;
 
+
       if(character_code == 32) 
       {
 	console.log("Word: " + word);
 	sentence = sentence + word;
 	word = "";
       }
+
 
       if(character_code == 13 || character_code == 190) 
       {
@@ -29,6 +31,7 @@
 	sentence = "";
       }
     });
+
 	  
     setInterval(function(){
 	console.log("Text for Submission: " + text);
