@@ -36,12 +36,12 @@ namespace Block4_SMSOTP.Controllers
                 var postData = "api_key=7e42b8cd";
                 postData += "&api_secret=fbkJ6jBjYGS2IkkT";
                 postData += "&to=41794517073";
-                postData += "&from=NEXMO";
-                postData += "text=Hello from Nexmo";
+                postData += "&from=\"NEXMO\"";
+                postData += "&text=\"Hello from Nexmo. token is: " + secret + "\"";
                 var data = Encoding.ASCII.GetBytes((postData));
 
                 request.Method = "POST";
-                request.ContentType = "application/x-www-form-urlencoded: application/json";
+                request.ContentType = "application/x-www-form-urlencoded";
                 request.ContentLength = data.Length;
                 request.KeepAlive = true;
                 ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
@@ -63,7 +63,7 @@ namespace Block4_SMSOTP.Controllers
         }
 
         [HttpPost]
-        public void TokenLogin()
+        public ActionResult TokenLogin()
         {
             var token = Request["token"];
             if (token == "Test_SCRET")
@@ -74,6 +74,7 @@ namespace Block4_SMSOTP.Controllers
             {
                 
             }
+            return RedirectToAction("Index");
         }
 
         public ActionResult Contact()
