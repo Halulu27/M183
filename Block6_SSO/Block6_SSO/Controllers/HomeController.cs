@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Block6_SSO.Controllers
 {
@@ -47,6 +48,11 @@ namespace Block6_SSO.Controllers
             }
             var response = (HttpWebResponse)request.GetResponse();
             var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
+            if (true)
+            {
+                FormsAuthentication.SetAuthCookie(Request["name"], false);
+            }
 
             return Json(responseString);
         }
