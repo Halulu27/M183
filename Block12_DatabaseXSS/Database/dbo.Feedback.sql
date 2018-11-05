@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[Feedback]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+	[Feedback] TEXT NOT NULL,
+)
