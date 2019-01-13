@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Google.Authenticator;
 
 namespace Block4_SMSOTP.Controllers
 {
@@ -28,8 +29,9 @@ namespace Block4_SMSOTP.Controllers
         {
             var username = Request["username"];
             var password = Request["password"];
+            var gToken = Request["gToken"];
 
-            if (username == "test" && password == "test")
+            if (username == "test" && password == "1234")
             {
                 var request = (HttpWebRequest) WebRequest.Create("https://rest.nexmo.com/sms/json");
                 var secret = "Test_SECRET";
@@ -51,9 +53,27 @@ namespace Block4_SMSOTP.Controllers
                 {
                     stream.Write(data, 0, data.Length);
                 }
-                var response = (HttpWebResponse) request.GetResponse();
-                var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                ViewBag.Message = responseString;
+                using (var response = (HttpWebResponse)request.GetResponse())
+                using (var streamResponse = response.GetResponseStream())
+                {
+                    if (streamResponse != null)
+                    {
+                        ViewBag.Message = new StreamReader(streamResponse).ReadToEnd();
+                    }
+                }
+            }
+            else if (username == "google" && password == "1234")
+            {
+                var twoFactorAuth = new TwoFactorAuthenticator();
+
+                if (twoFactorAuth.ValidateTwoFactorPIN("SecretKey", gToken))
+                {
+                    ViewBag.Message = "Login and GToken correct";
+                }
+                else
+                {
+                    ViewBag.Message = "Wrong Credentials and GToken";
+                }
             }
             else
             {
@@ -68,13 +88,24 @@ namespace Block4_SMSOTP.Controllers
             var token = Request["token"];
             if (token == "Test_SCRET")
             {
-
+                ViewBag.Message = "Correct Token. Success";
             }
             else
             {
-                
+                ViewBag.Message = "Wrong Token. Failure";
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult SetupAuthentication()
+        {
+            var twoFactorAuthenticator = new TwoFactorAuthenticator();
+            var setupInfo =
+                twoFactorAuthenticator.GenerateSetupCode("MyMVCApp", "odermatt.simon@gmail.com", "SecretKey", 300, 300);
+
+            ViewBag.QrCodeImageUrl = setupInfo.QrCodeSetupImageUrl;
+            ViewBag.ManualEntrySetupCode = setupInfo.ManualEntryKey;
+            return View();
         }
 
         public ActionResult Contact()

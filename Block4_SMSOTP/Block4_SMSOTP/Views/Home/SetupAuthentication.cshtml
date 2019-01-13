@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Google Authentication";
+}
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2 well" style="top: 60px;">
+        <h2>QR-Code</h2>
+
+        <br/><br/>
+
+        <img src="@ViewBag.QrCodeImageUrl" />
+
+        <br/><br/>
+
+        <h2>Token for manual entry</h2>
+        <div>@ViewBag.ManualEntrySetupCode</div>
+    </div>
+</div>
