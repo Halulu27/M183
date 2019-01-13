@@ -12,7 +12,7 @@ namespace Block8_Lab1.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Login");
         }
 
         [HttpPost]
@@ -20,9 +20,26 @@ namespace Block8_Lab1.Controllers
         {
             var username = Request["Username"];
             var password = Request["Password"];
-            if (username == "test" && password == "test")
+            var stayLoggedInd = Boolean.Parse(Request["stayLoggedIn"]);
+
+            if (username == "odermatt" && password == "1234")
             {
-                FormsAuthentication.SetAuthCookie("test", false);
+                ViewBag.Message = "Successfully logged in!";
+                if (stayLoggedInd)
+                {
+                    Request.Cookies.Set(new HttpCookie(FormsAuthentication.FormsCookieName, username)
+                    {
+                        Expires = DateTime.Now.AddDays(14),
+                        HttpOnly = true,
+                        Secure = true,
+                        Domain = FormsAuthentication.CookieDomain,
+                        Path = FormsAuthentication.FormsCookiePath
+                    });
+                }
+                else
+                {
+                    FormsAuthentication.SetAuthCookie(username, false);
+                }
                 return RedirectToAction("Success");
             }
             return View();

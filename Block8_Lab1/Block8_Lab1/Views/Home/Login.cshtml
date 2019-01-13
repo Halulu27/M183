@@ -13,9 +13,13 @@
 <body>
     <div>
         <form method="POST" action="/Home/Login">
+            <label>Username</label>
             <input type="text" name="Username" placeholder="Username"/>
-            <input type="password" name="Password" placeholder="Password" />
-            <input type="submit" name="submit" value="Login" />
+            <label>Password</label>
+            <input type="password" name="Password" placeholder="Password"/>
+            <label>Stay logged in</label>
+            <input type="checkbox" name="stayLoggedIn"/>
+            <input type="submit" name="submit" value="Login"/>
         </form>
     </div>
 </body>
