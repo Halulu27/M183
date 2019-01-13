@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Block16_Logging.Models.HomeControllerViewModel>
+
+@{
+    ViewBag.Title = "Logs";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (Model != null)
+{
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.UserId)</th>
+            <th>@Html.DisplayNameFor(model => model.LogId)</th>
+            <th>@Html.DisplayNameFor(model => model.LogCreatedOn)</th>
+        </tr>
+        @foreach (var logItem in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(x => logItem.UserId)</td>
+                <td>@Html.DisplayFor(x => logItem.LogId)</td>
+                <td>@Html.DisplayFor(x => logItem.LogCreatedOn)</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <h3>No Result found</h3>
+}
