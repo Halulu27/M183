@@ -9,6 +9,8 @@ namespace Block12_DatabaseXSS.Controllers
 {
     public class HomeController : Controller
     {
+        public static string dbConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\gibz\Documents\sql_xss_injection.mdf;Integrated Security=True;Connect Timeout=30";
+
         [HttpGet]
         public ActionResult Index(bool single = true)
         {
@@ -17,14 +19,17 @@ namespace Block12_DatabaseXSS.Controllers
 
         public ActionResult Login()
         {
-            SqlConnection con = new SqlConnection();
-            con.ConnectionString =
-                @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\gibz\Documents\sql_xss_injection.mdf;Integrated Security=True;Connect Timeout=30";
-            SqlCommand command = new SqlCommand();
+            var con = new SqlConnection
+            {
+                ConnectionString = dbConnectionString
+            };
+            var command = new SqlCommand
+            {
+                CommandText = "SELECT [Id], [Username], [Password] FROM [dbo].[User]",
+                Connection = con
+            };
 
-            command.CommandText = "SELECT [Id], [Username], [Password] FROM [dbo].[User]";
-            command.Connection = con;
-            using (SqlDataReader reader = command.ExecuteReader())
+            using (var reader = command.ExecuteReader())
             {
                 if (reader.HasRows)
                 {
@@ -48,12 +53,16 @@ namespace Block12_DatabaseXSS.Controllers
             var password = Request["Password"];
 
 
-            var con = new SqlConnection();
-            con.ConnectionString =
-                @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\gibz\Documents\sql_xss_injection.mdf;Integrated Security=True;Connect Timeout=30";
-            var command = new SqlCommand();
-            command.CommandText = $"SELECT [Id], [Username], [Password] FROM [dbo].[User] WHERE [Username] = '{username}' AND [Password] = '{password}';";
-            command.Connection = con;
+            var con = new SqlConnection
+            {
+                ConnectionString = dbConnectionString
+            };
+            var command = new SqlCommand
+            {
+                CommandText =
+                    $"SELECT [Id], [Username], [Password] FROM [dbo].[User] WHERE [Username] = '{username}' AND [Password] = '{password}';",
+                Connection = con
+            };
             con.Open();
             using (var reader = command.ExecuteReader())
             {
@@ -85,12 +94,16 @@ namespace Block12_DatabaseXSS.Controllers
             var feedback = Request["Feedback"];
 
 
-            var con = new SqlConnection();
-            con.ConnectionString =
-                @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\gibz\Documents\sql_xss_injection.mdf;Integrated Security=True;Connect Timeout=30";
-            var command = new SqlCommand();
-            command.CommandText = $"INSERT INTO [dbo].[Feedback] SET [Feedback] = '{feedback}';";
-            command.Connection = con;
+            var con = new SqlConnection
+            {
+                ConnectionString = dbConnectionString
+
+            };
+            var command = new SqlCommand
+            {
+                CommandText = $"INSERT INTO [dbo].[Feedback] SET [Feedback] = '{feedback}';",
+                Connection = con
+            };
             con.Open();
             using (var reader = command.ExecuteReader())
             {
