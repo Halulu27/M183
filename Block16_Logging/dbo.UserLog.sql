@@ -1,0 +1,13 @@
+﻿CREATE TABLE [dbo].[UserLog]
+(
+	[Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[UserId] INT NOT NULL,
+	[IP] VARCHAR(10) NOT NULL,
+	[Browser] VARCHAR(250) NOT NULL,
+	[Action] VARCHAR(10) NOT NULL,
+	[Result] VARCHAR(10) NOT NULL,
+	[AdditionalInformation] TEXT NOT NULL,
+	[CreatedOn] DATETIME NOT NULL,
+	[ModifiedOn] DATETIME NOT NULL,
+	[DeletedOn] DATETIME NOT NULL
+)
