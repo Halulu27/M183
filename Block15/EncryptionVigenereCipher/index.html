@@ -137,7 +137,7 @@
             var chara = input[i];
             if (chara.match(/[a-z]/i)) {
                 var cr = parseInt(input.charCodeAt(i));
-                if ((code >= 65) && (code <= 90)) {
+                if ((cr >= 65) && (cr <= 90)) {
                     var c = parseInt(cr - 65);
                     var keyCharShift = parseInt(key[i].charCodeAt(0) - 65);
                     var newCharPosition = (c - keyCharShift) % 26;
@@ -147,7 +147,7 @@
                     output += String.fromCharCode(newCharPosition + 65);
                     j++;
                 }
-                else if ((code >= 97) && (code <= 122)) {
+                else if ((cr >= 97) && (cr <= 122)) {
                     var c = parseInt(cr - 97);
                     var keyCharShift = parseInt(key[i].charCodeAt(0) - 97);
                     var newCharPosition = (c - keyCharShift) % 26;
